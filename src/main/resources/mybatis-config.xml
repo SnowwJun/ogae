@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd">
+    
+<configuration>
+<!--     <settings> -->
+<!-- 		<setting name="logImpl" value="STDOUT_LOGGING" /> -->
+<!-- 	</settings> -->
+    
+    
+	<properties resource="sql/database.properties" />
+<!-- 	<properties resource="sql/database-dev.properties" /> -->
+	<typeAliases>
+		<typeAlias type="com.ogae.admin.AdminVO" alias="admin"/>
+		<typeAlias type="com.ogae.vo.ReserveVO" alias="reserve"/>
+		<typeAlias type="com.ogae.vo.GuestVO" alias="guest"/>
+		<typeAlias type="com.ogae.vo.PaymentVO" alias="payment"/>
+		<typeAlias type="com.ogae.admin.board.ReviewVO" alias="review"/>
+		<typeAlias type="com.ogae.admin.board.NoticeVO" alias="NoticeVO" />
+		<typeAlias type="com.ogae.admin.board.RoomVO" alias="RoomVO" />
+		<typeAlias type="com.ogae.admin.board.RoomImgVO" alias="RoomImgVO" />
+		<typeAlias type="com.ogae.admin.board.RoomItemVO" alias="RoomItemVO" />
+		<!-- <typeAlias type="com.ogae.user.board.UserNoticeVO" alias="UserNoticeVO" />  -->
+		
+		
+		<!-- 1207추가 -->
+		<typeAlias type="com.ogae.admin.board.ServiceVO" alias="serviceVO" />
+		<typeAlias type="com.ogae.admin.board.ServiceImgVO" alias="serviceImgVO" />
+		<typeAlias type="com.ogae.admin.board.TourVO" alias="tour"/>
+		<typeAlias type="com.ogae.admin.board.QnaVO" alias="QNAVO"/>
+		<typeAlias type="com.ogae.admin.board.FacilityVO" alias="FacilityVO"/>
+		<typeAlias type="com.ogae.admin.board.FacilityImgVO" alias="FacilityImgVO"/>
+		<typeAlias type="com.ogae.admin.board.EventVO" alias="event"/>
+		<typeAlias type="com.ogae.admin.board.EventImgVO" alias="event_img"/>
+		<typeAlias type="com.ogae.admin.board.TermsVO" alias="terms"/>
+		
+		
+		<typeAlias type="com.ogae.user.board.UserNoticeVO" alias="UserNoticeVO" />
+		<typeAlias type="com.ogae.user.board.UserRoomVO" alias="UserRoomVO" />
+		<typeAlias type="com.ogae.user.board.UserQnaVO" alias="UserQNAVO"/>
+		<typeAlias type="com.ogae.user.board.UserRoomItemVO" alias="UserRoomItemVO" />
+		<typeAlias type="com.ogae.user.board.UserRoomImgVO" alias="UserRoomImgVO" />
+		<typeAlias type="com.ogae.user.board.UserReviewVO" alias="user_review"/>
+		<typeAlias type="com.ogae.user.board.UserEventVO" alias="user_event"/>
+		<typeAlias type="com.ogae.user.board.UserEventImgVO" alias="user_event_img"/>
+		<typeAlias type="com.ogae.user.board.UserFacilityVO" alias="UserFacilityVO"/>
+		<typeAlias type="com.ogae.user.board.UserFacilityImgVO" alias="UserFacilityImgVO"/>
+		
+
+		
+	</typeAliases>
+	<mappers>
+	
+		<mapper resource="sql/mapper/admin-sql.xml"/>
+		<mapper resource="sql/mapper/reserve-sql.xml"/>
+		<mapper resource="sql/mapper/guest-sql.xml"/>
+		<mapper resource="sql/mapper/payment-sql.xml"/>
+		<mapper resource="sql/mapper/review-sql.xml"/>	
+		
+
+		<!-- 1115추가 -->
+		<mapper resource="sql/mapper/notice-sql.xml" />
+		<!-- <mapper resource="sql/mapper/userNotice-sql.xml" /> -->
+		<mapper resource="sql/mapper/room-sql.xml" />
+		<mapper resource="sql/mapper/roomImg-sql.xml" />
+		<mapper resource="sql/mapper/roomItem-sql.xml" />
+			<mapper resource="sql/mapper/service-sql.xml" />
+		<mapper resource="sql/mapper/serviceImg-sql.xml" />
+		
+		<!-- 1207추가 -->
+		<mapper resource="sql/mapper/event-sql.xml"/>
+		<mapper resource="sql/mapper/event-img-sql.xml"/>
+		<mapper resource="sql/mapper/tour-sql.xml"/>	
+		<mapper resource="sql/mapper/qna-sql.xml"/>	
+		<mapper resource="sql/mapper/userQna-sql.xml"/>	
+		<mapper resource="sql/mapper/facility-sql.xml"/>	
+		<mapper resource="sql/mapper/facility-Img-sql.xml"/>	
+		<mapper resource="sql/mapper/userFacility-sql.xml"/>	
+		<mapper resource="sql/mapper/userFacility-Img-sql.xml"/>
+		<mapper resource="sql/mapper/user-event-sql.xml"/>
+		<mapper resource="sql/mapper/user-event-img-sql.xml"/>	
+		
+		<mapper resource="sql/mapper/userNotice-sql.xml" />
+		<mapper resource="sql/mapper/userRoom-sql.xml" />
+		<mapper resource="sql/mapper/userRoomItem-sql.xml" />
+		<mapper resource="sql/mapper/userRoomImg-sql.xml" />
+		<mapper resource="sql/mapper/user-review-sql.xml"/>
+		<mapper resource="sql/mapper/terms-sql.xml"/>	
+		
+	</mappers>
+</configuration>

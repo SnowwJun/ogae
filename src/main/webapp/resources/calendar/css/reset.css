@@ -1,0 +1,117 @@
+@charset "utf-8";
+
+@font-face {
+	font-family:"bellMT";
+	src:url('/font/bellmt.eot');
+	src:url('/font/bellmt.eot?#iefix') format('embedded-opentype'),
+	url('/font/BellMT.woff') format('woff'),
+	url('/font/bellmt.ttf') format('truetype');
+	src:local(��), url('/font/BellMT.woff') format('woff');
+}
+@font-face {
+	font-family:"bellMTI";
+	src:url('/font/belli.eot');
+	src:url('/font/belli.eot?#iefix') format('embedded-opentype'),
+	url('/font/BellMTItalic.woff') format('woff'),
+	url('/font/belli.ttf') format('truetype');
+	src:local(��), url('/font/BellMTItalic.woff') format('woff');
+}
+@font-face {
+	font-family:"bellMTB";
+	src:url('/font/BellMTStd-Bold.eot');
+	src:url('/font/BellMTStd-Bold.eot?#iefix') format('embedded-opentype'),
+	url('/font/BellMTStd-Bold.woff') format('woff'),
+	url('/font/BellMTStd-Bold.ttf') format('truetype');
+	src:local(��), url('/font/BellMTStd-Bold.woff') format('woff');
+}
+@font-face {
+	font-family:"NanumBarunGothic";
+	src:url('/font/NanumBarunGothicUltraLight.eot');
+	src:url('/font/NanumBarunGothicUltraLight.eot?#iefix') format('embedded-opentype'),
+	url('/font/NanumBarunGothicUltraLight.woff') format('woff'),
+	url('/font/NanumBarunGothicUltraLight.ttf') format('truetype');
+	src:local(��), url('/font/NanumBarunGothicUltraLight.woff') format('woff');
+}
+
+/*font-family: 'NanumSquareLight';*/
+/*font-family: 'NanumSquare';*/
+/*font-family: 'NanumSquareBold';*/
+/*font-family: 'NanumSquareExtraBold';*/
+/*font-family: 'NanumSquareAcb';*/
+/*font-family: 'NanumSquareAceb';*/
+/*font-family: 'NanumSquareAcl';*/
+/*font-family: 'NanumSquareAcr';*/
+
+
+html {
+	font: 10px 'NanumSquareAcr', serif;
+	letter-spacing: 0.7px;
+	color: #333;
+}
+.reserContainer {
+	max-width: 1250px;
+	padding-bottom: 5%;
+	margin: 0 auto;
+}
+
+html, body, div, span, h1, h2, h3, h4, h5, p, 
+address, em, img, strong, dl, dt, dd, ul, li, 
+fieldset, form, label, legend, table, caption, 
+tbody, tfoot, thead, tr, th, td, article, aside, 
+footer, header, nav, section, summary,figcaption, figure {
+	margin: 0px;
+	padding: 0px;
+}
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+li {
+	list-style: none;
+}
+img, fieldset {
+	border: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-size: 100%;
+	font-weight: normal;
+}
+a {
+	text-decoration: none;
+	color: #333;
+}
+address {
+	font-style: normal;
+}
+caption, legend {
+	position: absolute;
+	left: -9999px;
+}
+table {
+	border-collapse: collapse;
+}
+th {
+	font-weight: normal;
+}
+
+
+
+@media (max-width: 1250px) {
+	.reserContainer {
+		padding: 0 2% 5%;
+	}
+}
+@media (max-width: 1024px) {
+	html {
+		font: 9px 'NanumSquareAcr', serif;
+	}
+}
+@media (max-width: 768px) {
+	html {
+		font: 8px 'NanumSquareAcr', serif;
+		letter-spacing: 0px;
+	}
+	.reserContainer {
+		padding: 0 4% 5%;
+	}
+}

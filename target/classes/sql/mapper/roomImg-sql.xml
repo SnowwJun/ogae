@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="RoomImgDAO">
+<!-- 	<resultMap type="RoomImgVO" id="roomImgResult"> -->
+<!-- 		<id property="imgIdx" column="img_idx" /> -->
+<!-- 		<result property="imgPath" column="img_path" /> -->
+<!-- 		<result property="roomIdx" column="room_idx" /> -->
+<!-- 	</resultMap> -->
+
+	<insert id="insertRoomImg" parameterType="RoomImgVO" useGeneratedKeys="true" keyProperty="room_idx">
+<!-- 		자식 테이블에서 데이터를 삽입하고 부모 테이블의 키를 사용 -->
+		INSERT INTO room_img(img_path, room_idx)
+		VALUES(#{img_path}, #{room_idx})
+	</insert>
+
+	<update id="updateRoomImg" parameterType="RoomImgVO" useGeneratedKeys="true" keyProperty="room_idx">
+		UPDATE room_img
+		SET img_path = #{img_path}
+		WHERE img_idx = #{img_idx} and room_idx = #{room_idx}
+	</update>
+
+	<delete id="deleteRoomImg" parameterType="RoomImgVO">
+		DELETE FROM room_img
+		WHERE room_idx = #{room_idx}
+	</delete>
+
+	<select id="getRoomImg" resultType="RoomImgVO" parameterType="RoomImgVO">
+		SELECT * FROM room_img
+		WHERE room_idx  = #{room_idx}
+	</select>
+
+	<select id="getRoomImgList" resultType="RoomImgVO" parameterType="RoomImgVO">
+		SELECT * FROM room_img
+		WHERE room_idx = #{room_idx}
+	</select>
+
+</mapper>

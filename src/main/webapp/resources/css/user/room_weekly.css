@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+/* calendar-table 요소의 스타일 */
+.calendar-table {
+  width: 1400px;
+  border-collapse: collapse;
+  margin: 50px auto; /* 수평 가운데 정렬을 위한 스타일 추가 */
+}
+
+/* calendar-table 내부의 th 스타일 */
+.calendar-table th {
+  background-color: #f0f0f0;
+  text-align: center; /* 헤더 셀 가운데 정렬 */
+  font-weight: bold;
+}
+
+/* calendar-table 내부의 td 스타일 */
+.calendar-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center; /* 내용 셀 가운데 정렬 */
+  font-weight: bold;
+  background-color: #ffd700; /* 오늘 날짜 스타일 */
+}
+
+.calendar-table th, .calendar-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* 요일 헤더 스타일 */
+.calendar-table th {
+  background-color: #f0f0f0;
+}
+
+/* 오늘 날짜 스타일 */
+.calendar-table td {
+  background-color: #ffffff;
+  height: 70px;
+}

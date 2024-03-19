@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TermsDAO">
+	<resultMap type="terms" id="termsResult">
+		<id property="terms_idx" column="terms_idx"/>
+		<result property="terms_title" column="terms_title"/>
+		<result property="terms_content" column="terms_content" />
+		<result property="terms_necessary" column="terms_necessary" />
+		<result property="terms_regdate" column="terms_regdate" />
+		<result property="terms_modydate" column="terms_modydate" />
+	</resultMap>
+
+<!-- where절 공통사용 -->
+	<sql id="search">
+		<where>
+			<if test="searchCondition == 'title'">
+				AND terms_title LIKE '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="searchCondition == 'content'">
+				AND terms_content LIKE '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="searchCondition == 'titleAndContent'">
+				AND (terms_title LIKE '%' || #{searchKeyword} || '%'
+				OR terms_content LIKE '%' || #{searchKeyword} || '%')
+			</if>
+		</where>
+	</sql>
+
+
+	   <insert id="insertTerms" parameterType="terms">
+      INSERT INTO terms (terms_idx, terms_title, terms_content, terms_necessary)
+      VALUES ((SELECT COALESCE(MAX(terms_idx), 0) + 1 FROM terms), #{terms_title}, #{terms_content}, #{terms_necessary})
+   </insert>
+
+	<update id="updateTermsBoard" parameterType="terms">
+		UPDATE terms
+		SET terms_title = #{terms_title}, terms_content = #{terms_content}, terms_necessary = #{terms_necessary}
+		WHERE terms_idx = #{terms_idx}
+	</update>
+	
+	<delete id="deleteTerms" parameterType="terms">
+		DELETE FROM terms WHERE
+		terms_idx = #{terms_idx}
+	</delete>
+	
+	<!-- 목록 -->
+	<select id="getTermsList" resultMap="termsResult" parameterType="terms">
+		SELECT * FROM terms
+		ORDER BY terms_idx DESC
+	</select>
+	
+	<!-- 상세보기 -->
+	<select id="getTermsView" resultMap="termsResult" parameterType="terms">
+		SELECT * FROM terms
+		WHERE terms_idx = #{terms_idx}
+	</select>
+
+	
+		
+	<!-- 게시글 목록 총 개수 -->
+<!-- 	<select id="getTermsListCnt" resultType="int"> -->
+<!-- 		SELECT COUNT(*) as -->
+<!-- 		listCnt FROM terms -->
+		
+<!-- 	</select> -->
+
+	<!-- 검색목록 -->
+<!-- 	<select id="getSearchTermsList" resultMap="termsResult" parameterType="map"> -->
+<!-- 		SELECT * FROM terms -->
+<!-- 		<include refid="search" /> -->
+<!-- 		ORDER BY terms_idx DESC -->
+<!-- 		LIMIT #{listSize} OFFSET #{startList} -->
+<!-- 	</select> -->
+
+<!-- 	검색 목록 총 개수 -->
+<!-- 	<select id="getSearchTermsListCnt" resultType="int" parameterType="map"> -->
+<!-- 		SELECT COUNT(*) as listCnt FROM terms -->
+<!-- 		<include refid="search"></include> -->
+<!-- 	</select> -->
+
+</mapper>

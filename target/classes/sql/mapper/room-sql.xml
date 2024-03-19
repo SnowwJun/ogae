@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="RoomDAO">
+	<resultMap type="RoomVO" id="roomResult">
+		<id property="roomIdx" column="room_idx" />
+		<result property="roomName" column="room_name" />
+		<result property="room" column="room_info" />
+		<result property="roomCondition" column="room_condition" />
+		<result property="roomCategory" column="room_category" />
+		<result property="personNum" column="person_num" />
+		<result property="dogNum" column="dog_num" />
+		<result property="roomItemIdx" column="room_item_idx" />
+		<result property="roomGuide" column="room_guide" />
+		<result property="dogNum" column="roomSize" />
+		<result property="roomRegdate" column="room_regdate" />
+		<result property="roomCheckin" column="room_checkin" />
+		<result property="roomCheckout" column="room_checkout" />
+	</resultMap>
+
+	<!-- where절 공통 사용 -->
+	<sql id="search">
+		<where>
+			<if test="searchCondition == 'title'">
+				AND ROOM_TITME LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'content'">
+				AND ROOM_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchCondition == 'writer'">
+				AND ROOM_WRITER LIKE '%'||#{searchKeyword}||'%'
+			</if>
+		</where>
+	</sql>
+
+	<insert id="insertRoom" parameterType="RoomVO" useGeneratedKeys="true" keyProperty="room_idx">
+
+		INSERT INTO room(room_idx, room_name, room_info, room_condition, room_category, person_num, dog_num, room_item_idx, room_guide, room_size,
+		room_regdate, room_checkin, room_checkout, room_price)
+		VALUES((SELECT COALESCE(MAX(room_idx), 0) + 1 FROM room), #{room_name}, #{room_info},#{room_condition}, #{room_category}, #{person_num}, #{dog_num}, #{room_item_idx},
+		#{room_guide}, #{room_size}, current_timestamp, #{room_checkin}, #{room_checkout}, #{room_price})
+	</insert>
+
+	<update id="updateRoom" parameterType="map" useGeneratedKeys="true" keyProperty="room_idx">
+		UPDATE room
+		SET room_name = #{room_name},
+		room_info = #{room_info}, 
+		room_condition = #{room_condition},
+		room_category = #{room_category},
+		person_num = #{person_num},
+		dog_num = #{dog_num},
+		room_item_idx = #{room_item_idx},
+		room_guide = #{room_guide},
+		room_size = #{room_size},
+		room_checkin = #{room_checkin},
+		room_checkout = #{room_checkout},
+		room_price = #{room_price}
+		WHERE room_idx = #{room_idx}
+	</update>
+
+	<delete id="deleteRoom" parameterType="RoomVO">
+		DELETE FROM room
+		WHERE room_idx = #{room_idx}
+	</delete>
+
+	<select id="getRoom" resultType="RoomVO" parameterType="RoomVO" >
+		SELECT *FROM room 
+		WHERE room_idx = #{room_idx}
+	</select>
+
+	<select id="getRoomList" resultType="RoomVO" parameterType="RoomVO">
+		SELECT * FROM room
+		ORDER BY room_idx ASC
+	</select>
+	
+	<select id="getRoomImgList" resultType="RoomImgVO" parameterType="RoomImgVO">
+		SELECT * FROM room_img
+		WHERE room_idx = #{room_idx}
+	</select>
+
+<!-- 	게시글 목록 총 개수 -->
+	<select id="getRoomListCnt" resultType="int">
+		SELECT COUNT(*) as
+		listCnt FROM ROOM
+	</select>
+
+
+	<!-- 아이템 목록 -->
+	<select id="getRoomWithItemName" parameterType="int" resultType="RoomVO">
+    SELECT R.ROOM_IDX, R.ROOM_NAME, R.ROOM_INFO, R.ROOM_CONDITION, R.ROOM_CATEGORY,
+        R.PERSON_NUM, R.DOG_NUM, R.ROOM_ITEM_IDX, R.ROOM_GUIDE, R.ROOM_SIZE,
+        R.ROOM_CHECKIN, R.ROOM_CHECKOUT,
+        STRING_AGG(I.ROOM_ITEM_NAME, ', ') AS ROOM_ITEM_NAMES
+    FROM ROOM R
+    INNER JOIN ROOM_ITEM I ON POSITION(I.ROOM_ITEM_IDX IN R.ROOM_ITEM_IDX) > 0
+    <where>
+        <!-- if test="room_idx != null" -->
+            AND R.ROOM_IDX = #{room_idx}
+        <!-- /if -->
+    </where>
+    GROUP BY R.ROOM_IDX, R.ROOM_NAME, R.ROOM_INFO, R.ROOM_CONDITION, R.ROOM_CATEGORY,
+        R.PERSON_NUM, R.DOG_NUM, R.ROOM_ITEM_IDX, R.ROOM_GUIDE, R.ROOM_SIZE,
+        R.ROOM_CHECKIN, R.ROOM_CHECKOUT
+	</select>
+</mapper>
+
+	
+
+	

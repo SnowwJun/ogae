@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserEventDAO">
+	<resultMap type="user_event" id="eventResult">
+		<id property="idx" column="event_idx"/>
+		<result property="title" column="event_title"/>
+		<result property="writer" column="event_writer"/>
+		<result property="content" column="event_content"/>
+		<result property="condition" column="event_condition"/>
+		<result property="regDate" column="event_regdate"/>
+		<result property="modyDate" column="event_modydate"/>
+		<result property="startDate" column="event_startdate"/>
+		<result property="endDate" column="event_enddate"/>
+	</resultMap>
+	
+	<!-- where절 공통 사용 -->
+	<sql id="where">
+		WHERE event_idx=#{idx}
+	</sql>
+	<sql id="search">
+		<where>
+	        <if test="searchCondition == 'title'">
+	            AND event_title LIKE '%' || #{searchKeyword} || '%'
+	        </if>
+	        <if test="searchCondition == 'content'">
+	            AND event_content LIKE '%' || #{searchKeyword} || '%'
+	        </if>
+	       <if test="searchCondition == 'titleAndContent'">
+	            AND (event_title LIKE '%' || #{searchKeyword} || '%'
+	            OR event_content LIKE '%' || #{searchKeyword} || '%')
+	        </if>
+	    </where>
+	  </sql>
+	
+	<!-- 이벤트 게시글 조회 -->
+	<select id="getEvent" resultMap="eventResult" parameterType="user_event">
+		SELECT * FROM event
+		<include refid="where"></include>
+	</select>
+
+	<!-- 이벤트 게시글 목록 -->
+	<select id="getEventList" resultMap="eventResult" parameterType="user_event">
+		SELECT * FROM event
+		ORDER BY event_idx DESC
+		LIMIT #{listSize} OFFSET #{startList}
+	</select>
+	
+	<!-- 이벤트 게시글 목록 총 개수 -->
+	<select id="getEventListCnt" resultType="int">
+	    SELECT COUNT(*) as listCnt FROM event
+	</select>
+	
+	<!-- 이벤트 검색 목록 -->
+	<select id="getSearchEventList" resultMap="eventResult" parameterType="map">
+	    SELECT * FROM event
+	    <include refid="search"/>
+	    ORDER BY event_idx DESC
+	    LIMIT #{listSize} OFFSET #{startList}
+	</select>
+
+	<!-- 이벤트 검색 목록 총 개수 -->
+	<select id="getSearchEventListCnt" resultType="int" parameterType="map">
+	    SELECT COUNT(*) as listCnt FROM event
+	    <include refid="search"/>
+	  </select>
+	  
+	  <!-- 이전 글 다음 글 -->
+	<select id="prevNext" resultType="int" resultMap="eventResult">
+		SELECT * FROM (SELECT event_idx, event_title,
+		LAG(event_idx, 1, 0) OVER (ORDER BY event_idx) AS prevNum,
+		LAG(event_title, 1, '이전 글이 없습니다.') OVER (ORDER BY event_idx) AS prevTitle,
+		LEAD(event_idx, 1, 0) OVER (ORDER BY event_idx) AS nextNum,
+		LEAD(event_title, 1, '다음 글이 없습니다.') OVER (ORDER BY event_idx) AS nextTitle
+		FROM event) AS prevnext
+		<include refid="where"></include>
+		ORDER BY event_idx DESC
+	</select>
+</mapper>

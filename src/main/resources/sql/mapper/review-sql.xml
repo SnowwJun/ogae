@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ReviewDAO">
+	<resultMap type="review" id="reviewResult">
+		<id property="idx" column="review_idx"/>
+		<result property="title" column="review_title"/>
+		<result property="writer" column="review_writer"/>
+		<result property="content" column="review_content"/>
+		<result property="pass" column="review_pass"/>
+		<result property="regDate" column="review_regdate"/>
+		<result property="modyDate" column="review_modydate"/>
+		<result property="grade" column="review_grade"/>
+		<result property="Private" column="review_private"/>
+		<result property="reply" column="review_reply"/>
+		<result property="count" column="review_count"/>
+	</resultMap>
+	
+	<!-- where절 공통 사용 -->
+	<sql id="where">
+		WHERE review_idx=#{idx}
+	</sql>
+    <sql id="search">
+        <where>
+            <if test="searchCondition == 'title'">
+                AND review_title LIKE '%' || #{searchKeyword} || '%'
+            </if>
+            <if test="searchCondition == 'content'">
+                AND review_content LIKE '%' || #{searchKeyword} || '%'
+            </if>
+            <if test="searchCondition == 'writer'">
+                AND review_writer LIKE '%' || #{searchKeyword} || '%'
+            </if>
+        </where>
+    </sql>
+	
+	<!-- 리뷰 게시글 조회 -->
+	<select id="getReview" resultMap="reviewResult" parameterType="review">
+		SELECT * FROM review
+		<include refid="where"/>
+	</select>
+	
+	<!-- 댓글 등록 -->
+	<insert id="insertReviewReply" parameterType="review">
+		UPDATE review
+		SET review_reply=#{reply}
+		<include refid="where"/>
+	</insert>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReviewReply" parameterType="review">
+		UPDATE review
+		SET review_reply = null
+		<include refid="where"/>
+	</delete>
+	
+	<!-- 댓글 조회 -->
+	<select id="getReviewReply" resultType="String" parameterType="review">
+		SELECT review_reply
+		FROM review
+		<include refid="where"/>
+	</select>
+	
+	<!-- 리뷰 게시글 목록 -->
+	<select id="getReviewList" resultMap="reviewResult" parameterType="review">
+		SELECT * FROM review
+		ORDER BY review_idx DESC
+		LIMIT #{listSize} OFFSET #{startList}
+	</select>
+	
+	<!-- 리뷰 게시글 목록 총 개수 -->
+	<select id="getReviewListCnt" resultType="int">
+	    SELECT COUNT(*) AS listCnt FROM review
+	</select>
+	
+	<!-- 리뷰 검색 목록 -->
+	<select id="getSearchReviewList" resultMap="reviewResult" parameterType="map">
+	    SELECT * FROM review
+	    <include refid="search"/>
+	    ORDER BY review_idx DESC
+	    LIMIT #{listSize} OFFSET #{startList}
+	</select>
+
+	<!-- 리뷰 검색 목록 총 개수 -->
+	<select id="getSearchReviewListCnt" resultType="int" parameterType="map">
+	    SELECT COUNT(*) AS listCnt FROM review
+	    <include refid="search"/>
+	</select>
+	
+	<!-- 이전 글 다음 글 -->
+	<select id="prevNext" resultType="int" resultMap="reviewResult">
+		SELECT * FROM (SELECT review_idx, review_title,
+		LAG(review_idx, 1, 0) OVER (ORDER BY review_idx) AS prevNum,
+		LAG(review_title, 1, '이전 글이 없습니다.') OVER (ORDER BY review_idx) AS prevTitle,
+		LEAD(review_idx, 1, 0) OVER (ORDER BY review_idx) AS nextNum,
+		LEAD(review_title, 1, '다음 글이 없습니다.') OVER (ORDER BY review_idx) AS nextTitle
+		FROM review) AS prevnext
+		<include refid="where"/>
+		ORDER BY review_idx DESC
+	</select>
+</mapper>

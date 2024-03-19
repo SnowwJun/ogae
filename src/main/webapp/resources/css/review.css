@@ -1,0 +1,102 @@
+@charset "UTF-8";
+
+-- 만족도
+.rating {
+  	width: 180px; 
+}
+
+.rating__star {
+   cursor: pointer;
+   color: #dabd18b2;
+}
+
+body {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	margin: 0 auto;
+	-ms-overflow-style: none; 
+	overflow: auto;	
+	padding-top: 75px;
+}
+
+h2 {
+	padding: 20px;
+	text-align: center;
+	background: #eacda3;
+	color: white;
+	font-size: 30px;
+	border-radius: 10px;
+}
+
+table, th, td {
+	border-collapse: collapse;
+}
+
+th, td {
+	border-bottom: 1px solid #444444;
+	border-left: 1px solid #444444;
+	text-align: center;
+}
+
+th:first-child, td:first-child {
+	border-left: none;
+}
+
+th {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 30px;
+	padding-left: 30px;
+	font-size: 20px;
+}
+
+td {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 30px;
+	padding-left: 30px;
+}
+
+table {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	border-top: 1px solid #444444;
+}
+
+thead {
+	background: linear-gradient(to top, #e6b980 0%, #eacda3 50%);
+}
+
+
+textarea {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+    border: none;
+    resize: none;
+}
+
+div[class="buttonView"] {
+	float: right;
+	display: inline-block;
+	margin-top: 5px;
+	margin-right: 170px;
+	
+}
+
+div[class="buttonInsert"] {
+	text-align: center;
+	display: block;
+}
+
+div[class="eventSearch"], div[class="revSearch"] {
+	float: right;
+	display: inline-block;
+}
+
+button[type="submit"], button[type="button"], input[type="submit"] {
+	background: #E3CAA5;
+	padding: 10px 10px;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+}

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TourDAO">
+	<resultMap type="tour" id="tourResult">
+		<id property="tour_idx" column="tour_idx" />
+		<result property="tour_addr1" column="tour_addr1" />
+		<result property="tour_mapx" column="tour_mapx" />
+		<result property="tour_mapy" column="tour_mapy" />
+		<result property="tour_content" column="tour_content" />
+		<result property="tour_title" column="tour_title" />
+	</resultMap>
+
+
+	<insert id="insertTour" parameterType="tour">
+		INSERT INTO tour (tour_idx, tour_addr1, tour_mapx, tour_mapy, tour_title)
+		VALUES (#{tour_idx}, #{tour_addr1}, #{tour_mapx}, #{tour_mapy}, #{tour_title})
+		ON CONFLICT (tour_addr1)
+		DO NOTHING
+	</insert>
+	
+	<update id="updateTour" parameterType="tour">
+		UPDATE tour
+		SET
+		tour_title = #{tour_title},
+		tour_content = #{tour_content}
+		WHERE tour_idx = #{tour_idx}
+	</update>
+	
+	<delete id="deleteTour" parameterType="tour">
+		DELETE FROM tour WHERE
+		tour_idx = #{tour_idx}
+	</delete>
+	
+	<!-- 상세보기 -->
+	<select id="getTourView" resultMap="tourResult" parameterType="tour">
+		SELECT * FROM tour 
+		WHERE tour_idx = #{tour_idx}
+	</select>
+	
+	<!-- 목록 -->
+	<select id="TourList" resultMap="tourResult" parameterType="tour">
+		SELECT * FROM tour 
+		ORDER BY tour_idx
+	</select>
+	
+	<select id="getTourList" resultMap="tourResult" parameterType="tour">
+		SELECT * FROM tour 
+		ORDER BY tour_idx
+	</select>
+	
+	
+	
+	
+		<select id="Tour" resultMap="tourResult" parameterType="tour">
+		SELECT * FROM tour 
+		ORDER BY tour_idx
+	</select>
+	
+
+
+</mapper>

@@ -1,0 +1,124 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserQnaDAO">
+     <resultMap type="com.ogae.user.board.UserQnaVO" id="UserqnaResult"> 
+         <id property="qnaIdx" column="QNA_IDX" /> 
+         <result property="qnaTitle" column="QNA_TITLE" /> 
+         <result property="qnaWriter" column="QNA_WRITER" /> 
+         <result property="qnaContent" column="QNA_CONTENT" /> 
+         <result property="qnaPass" column="QNA_PASS" /> 
+         <result property="qnaRegDate" column="QNA_REGDATE" /> 
+         <result property="qnaModyDate" column="QNA_MODYDATE" /> 
+         <result property="qnaCount" column="QNA_COUNT" /> 
+         <result property="secret" column="QNA_SECRET" /> 
+         <result property="qnaReply" column="QNA_REPLY" /> 
+     </resultMap> 
+
+    <insert id="insertQna" parameterType="UserQNAVO">
+        INSERT INTO QNA (QNA_TITLE, QNA_WRITER, QNA_CONTENT, QNA_PASS, QNA_REGDATE,QNA_MODYDATE ,QNA_COUNT, QNA_SECRET, QNA_REPLY)
+        VALUES (#{qnaTitle}, #{qnaWriter}, #{qnaContent}, #{qnaPass}, CURRENT_TIMESTAMP,null ,#{qnaCount}, #{secret}, #{qnaReply})
+    </insert>
+<!-- 2023-11-14 updateQNA 작성자 -->
+    <update id="updateQna" parameterType="UserQNAVO">
+        UPDATE QNA
+        SET QNA_TITLE = #{qnaTitle}, QNA_CONTENT = #{qnaContent},QNA_WRITER = #{qnaWriter},QNA_MODYDATE = CURRENT_TIMESTAMP
+        WHERE QNA_IDX = #{qnaIdx}
+    </update>
+
+    <delete id="deleteQna" parameterType="UserQNAVO">
+        DELETE FROM QNA
+        WHERE QNA_IDX = #{qnaIdx}
+        
+    </delete>
+   
+    <!-- where절 공통 사용 -->
+    <sql id="where">
+    	WHERE QNA_IDX = #{qnaIdx}
+    </sql>
+    <sql id="search">
+        <where>
+            <if test="searchCondition == 'title'">
+                AND QNA_TITLE LIKE '%' || #{searchKeyword} || '%'
+            </if>
+            <if test="searchCondition == 'content'">
+                AND QNA_CONTENT LIKE '%' || #{searchKeyword} || '%'
+            </if>
+            <if test="searchCondition == 'writer'">
+                AND QNA_WRITER LIKE '%' || #{searchKeyword} || '%'
+            </if>
+        </where>
+    </sql>
+
+<!-- 리뷰 게시글 목록 -->
+   <select id="getQnaList" resultMap="UserqnaResult" parameterType="UserQNAVO">
+      SELECT * FROM QNA
+      ORDER BY QNA_IDX DESC
+      LIMIT #{listSize} OFFSET #{startList}
+   </select>
+   
+   <!-- 리뷰 게시글 목록 총 개수 -->
+   <select id="getQnaListCnt" resultType="int">
+       SELECT COUNT(*) as listCnt FROM QNA
+   </select>
+   
+   <!-- 리뷰 검색 목록 -->
+   <select id="getSearchQnaList" resultMap="UserqnaResult" parameterType="map">
+       SELECT * FROM QNA
+       <include refid="search"/>
+       ORDER BY QNA_IDX DESC
+       LIMIT #{listSize} OFFSET #{startList}
+   </select>
+
+   <!-- 리뷰 검색 목록 총 개수 -->
+   <select id="getSearchQnaListCnt" resultType="int" parameterType="map">
+       SELECT COUNT(*) as listCnt FROM QNA
+       <include refid="search"/>
+   </select>
+
+
+
+     <select id="getQna" resultMap="UserqnaResult" parameterType="UserQNAVO"> 
+         SELECT * FROM QNA 
+          <include refid="where"/>
+     </select> 
+
+    <!-- 이전 글 다음 글 -->
+   <select id="prevNext" resultType="int" resultMap="UserqnaResult">
+      SELECT * FROM (SELECT QNA_IDX, QNA_TITLE,
+      LAG(QNA_IDX, 1, 0) OVER (ORDER BY QNA_IDX) AS prevNum,
+      LAG(QNA_TITLE, 1, '이전 글이 없습니다.') OVER (ORDER BY QNA_IDX) AS prevTitle,
+      LEAD(QNA_IDX, 1, 0) OVER (ORDER BY QNA_IDX) AS nextNum,
+      LEAD(QNA_TITLE, 1, '다음 글이 없습니다.') OVER (ORDER BY QNA_IDX) AS nextTitle
+      FROM QNA) AS prevnext
+      <include refid="where"></include>
+      ORDER BY QNA_IDX DESC
+   </select>
+   
+   <!-- 댓글 등록 -->
+   <insert id="insertQnaReply" parameterType="UserQNAVO">
+    UPDATE QNA
+    SET QNA_REPLY = #{qnaReply}
+    <include refid="where"/>
+</insert>
+    
+    <!-- 댓글 삭제 -->
+    <delete id="deleteQnaReply" parameterType="UserQNAVO">
+        UPDATE QNA SET QNA_REPLY = NULL
+      <include refid="where"></include> 
+    </delete>
+    
+    <!-- 단일 댓글 정보 가져오기 -->
+	<select id="getQnaReply" resultType="String" parameterType="UserQNAVO">
+	    SELECT QNA_REPLY
+	    FROM QNA
+	    <include refid="where"/>
+	</select>
+    
+    <update id="countQna" parameterType="int">
+    UPDATE QNA
+    SET
+    QNA_COUNT= QNA_COUNT + 1
+     <include refid="where"/>
+    </update>
+
+    
+</mapper>

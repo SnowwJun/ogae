@@ -1,0 +1,170 @@
+@charset "UTF-8";
+
+.image-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px; /* 이미지 간 간격 설정 */
+}
+
+.image-item {
+	position: relative;
+	width: 230px; /* 이미지의 너비 조절 */
+	height: 150px; /* 이미지의 높이 조절 */
+	border: none; /* 1px solid #ccc 이미지 간 경계선 설정 */
+	text-align: center; /* 이미지 가운데 정렬 */
+	margin-bottom: 15px;
+	cursor: pointer;
+	width: 230px;
+}
+
+.image-item .add-image-button {
+	width: inherit;
+	height: inherit;
+	border: 1px dashed #d3d3d3;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 10x;
+}
+
+/* 이미지 마우스 오버 시 삭제 버튼 스타일 */
+.image-item .delete-button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: red;
+	color: white;
+	padding: 2px 5px;
+	cursor: pointer;
+	opacity: 0; /* 초기에는 숨김 상태로 설정 */
+	transition: opacity 0.3s; /* 투명도 변경에 대한 트랜지션 설정 */
+}
+
+/* 이미지 마우스 오버 시 삭제 버튼 표시 */
+.image-item:hover .delete-button {
+	opacity: 1; /* 마우스 오버 시 투명도를 1로 변경하여 나타남 */
+}
+
+/* 이미지 마우스 오버 시 효과 */
+.image-item:hover .delete-text {
+	opacity: 1; /* 마우스 오버 시 투명도를 1로 변경하여 나타남 */
+}
+
+/* 이미지 마우스 오버 시 효과 */
+.image-item:hover {
+	/* 마우스 오버 시 원하는 스타일 추가 (예: 그림자 효과) */
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.image-item:last-child {
+	margin-bottom: none;
+}
+
+.image-item img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+/* 이미지 팝업 스타일 */
+.image-popup {
+	visibility: hidden;
+	display: none;
+	position: fixed;
+	z-index: 999;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 800px;
+	height: 500px;
+	/* 	background: rgba(0, 0, 0, 0.7); */
+	text-align: center;
+}
+
+.image-popup img {
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
+}
+
+.close-popup {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 24px;
+	cursor: pointer;
+}
+
+/* 팝업 표시 애니메이션 */
+.image-popup.active {
+	animation: fade 0.3s;
+}
+
+.input-box {
+	border: none; /* 테두리 제거 */
+	padding: 5px; /* 내부 간격 설정 (선택적으로 추가할 수 있습니다.) */
+	width: 100%; /* 너비를 100%로 설정하여 부모 요소에 맞춥니다. */
+	/* 테두리와 패딩이 요소의 크기에 포함되도록 box-sizing을 border-box로 설정*/
+	box-sizing: border-box;
+	overflow-y: auto; /* 세로 스크롤바 추가 */
+	max-height: 150px; /* 최대 높이 설정 */
+}
+
+.input-box::placeholder {
+	color: #dddddd; /* 플레이스홀더 텍스트 색상 설정 */
+}
+
+/*11.14 추가*/
+.item-list td {
+	border: none;
+}
+
+/*11.21 추가*/
+.insertItem {
+	cursor: pointer;
+	font-size: 13px;
+	border: 0.5px solid #bcbcbc;
+	border-radius: 3px;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /*박스 그림자*/
+}
+
+#checkboxContainer {
+	display: flex;
+	justify-content: center; /* 가로 중앙 정렬을 위한 설정 */
+}
+
+#checkboxContainer div {
+	margin-right: 40px; /* 체크박스 간 간격을 조절하는 부분 */
+}
+
+.card {
+	margin-left: 280px;
+}
+/*11.22*/
+.file-input {
+	display: none; /* 파일 선택 창을 숨김 */
+}
+
+.add-image-button {
+	cursor: pointer;
+	/* 여기에 적절한 스타일 추가 */
+}
+
+.temp-save{
+	color: white;
+	font-size: 14px;
+	padding: 10px 8px;
+	background-color: #ffd362;
+	border: 1px solid #ffd362;
+	border-radius: 7px;
+	float: left; 
+}
+
+.condition_box{
+	height: 28px;
+	margin-right: 5px;
+}
+
+.input_search{
+	margin-right: 10px;
+}

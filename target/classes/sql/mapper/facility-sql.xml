@@ -1,0 +1,37 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="FacilityDAO">
+     <resultMap type="com.ogae.admin.board.FacilityVO" id="Facility"> 
+         <id property="facility_idx" column="FACILITY_IDX" /> 
+         <result property="facility_name" column="FACILITY_NAME" /> 
+         <result property="facility_info" column="FACILITY_INFO" /> 
+         <result property="facility_condition" column="FACILITY_CONDITION" /> 
+     </resultMap> 
+
+    <insert id="insertFacility" parameterType="FacilityVO" useGeneratedKeys="true" keyProperty="facility_idx">
+        INSERT INTO FACILITY (FACILITY_NAME, FACILITY_INFO)
+        VALUES (#{facility_name}, #{facility_info})
+        </insert>
+ <update id="updateFacility" parameterType="FacilityVO" useGeneratedKeys="true" keyProperty="facility_idx">
+        UPDATE FACILITY
+        SET FACILITY_NAME = #{facility_name}, FACILITY_INFO = #{facility_info}
+        WHERE FACILITY_IDX = #{facility_idx}
+    </update>
+
+    <delete id="deleteFacility" parameterType="FacilityVO">
+        DELETE FROM FACILITY
+        WHERE FACILITY_IDX = #{facility_idx}
+        
+    </delete>
+
+     <select id="getFac" resultMap="Facility" parameterType="FacilityVO"> 
+         SELECT * FROM FACILITY WHERE FACILITY_IDX = #{facility_idx} 
+     </select> 
+
+     <select id="getFacList" resultMap="Facility" parameterType="FacilityVO"> 
+         SELECT * FROM FACILITY
+        ORDER BY FACILITY_IDX DESC
+        
+    </select> 
+
+    
+</mapper>

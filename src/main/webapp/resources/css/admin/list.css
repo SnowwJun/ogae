@@ -1,0 +1,249 @@
+@charset "UTF-8";
+
+.heading2{
+	 font-size: 50px;
+/*    background: white; */
+         color:black; 
+   text-align: center;
+   line-height: 250px; /* 높이와 일치하도록 조절 */
+    height: 180px; /* 높이 지정 */ 
+   
+}
+
+body {
+	display: flex;
+	background-size: 100%;
+	object-fit: none;
+	background-position: top;
+	text-align: center;
+	margin: 0 0 20px 0;
+	flex-direction: column; /* 세로 중앙 정렬을 위해 컨테이너를 열 방향으로 배치 */
+	align-items: center; /* 수직 중앙 정렬 */
+}
+
+
+h1{
+	font-size: 100px;
+	font-family: sans-serif, Verdana,Geneva, Tahoma;
+	font-weight: bold;
+	letter-spacing: -3pt;
+	color: #1d6576;
+}
+
+.maintitle {
+   color: white;
+   text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.subtitle {
+   color: #163366;
+   font-size: 25px;
+   font-family: sans-serif, Verdana, Geneva, Tahoma;
+   letter-spacing: -0.3pt;
+   text-decoration: underline;
+   text-underline-offset: 5px; /* 원하는 간격 설정 */
+}
+
+.list-page {
+/* 	padding: 0px 115px 0 115px; */
+	margin-left: 200px;
+ flex: 1;
+  margin-right: auto; /* 이 부분이 추가된 부분입니다. */
+  padding: 20px; /* 더 필요한 여백을 추가하거나 조절할 수 있습니다. */
+	
+	
+}
+
+select {
+    width: 100px; /* 원하는 너비로 조절 */
+    height: 30px; /* 원하는 높이로 조절 */
+}
+
+input[type="text"] {
+/*     width: 200px; 원하는 너비로 조절 */
+    height: 25px; /* 원하는 높이로 조절 */
+}
+
+table {
+	border-collapse: collapse; /* 테이블 셀 경계를 병합하여 선을 나타냅니다. */
+	width: 100%; /* 테이블 너비 설정 (원하는 너비로 조정) */
+	margin-top: 20px; /* 테이블 위 여백 설정 */
+	border: 2px solid #929292; /* 테이블 경계선 스타일과 두께 설정 */
+	border-left: none;
+	border-right: none;
+/* 	table-layout: fixed; */
+}
+
+/* 열과 열 사이의 세로선 스타일 */
+.table td, th {
+	border-right: 1px solid #929292;
+	border-bottom: 1px solid #929292;
+}
+
+.table th:last-child {
+    border-right: none;
+}
+
+.table td:last-child, th:last-child{
+    border-right: none;
+}
+
+
+.tablehead {
+	font-size: 15px;
+	font-family: Verdana, sans-serif, Geneva, Tahoma;
+	letter-spacing: -0.3pt;
+	font-weight: bold;
+	line-height: 30px;
+	color: #676767;
+}
+
+.tablebody {
+	font-size: 15px;
+	font-family: Verdana, sans-serif, Geneva, Tahoma;
+	letter-spacing: -0.3pt;
+	font-weight: light;
+	line-height: 20px;
+	border: 2px solid #929292;
+	border-left: none;
+	border-right: none;
+}
+
+.tablebody td {
+	border-right: 1px solid #929292;
+}
+
+.tablebody td:last-child {
+    border-right: none;
+}
+
+.tablebody tr{
+	border-bottom: 1px solid #929292;
+}
+
+.centered-table {
+	margin: 0 auto; 좌우 가운데 정렬
+
+}
+
+.list_title {
+	width: 500px;
+}
+
+.list_text {
+	text-align: left;
+	padding: 10px;
+	font-size: 17px;
+}
+
+.list_text a {
+  text-decoration: none; /* 밑줄 제거, 추가하려면 underline */
+  color: black;
+}
+
+.list_text a:hover {
+  color: #AFB7AA; /* 마우스를 댓을때 색상 변경 */
+}
+
+.category-search, .search-form {
+	display: inline-block; /* 인라인 블록 요소로 설정하여 한 행에 배치 */
+	vertical-align: top;
+	padding: 0 0 20px 0;
+}
+
+.search-form {
+	float: right;
+}
+.category-search {
+	float: right;
+	margin-right: 10px;
+}	
+
+.pagenation {
+	text-align: center;
+	padding: 35px 0 0 0;
+	justify-content: center;
+}
+
+.pagenation ul{
+	list-style: none;
+	 display: inline-block;
+}
+
+.pagination li {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.pagination li a.active {
+   color: #000;
+   font-weight: bold;
+}
+
+.pagenation a{
+	text-decoration: none !important;
+	font-family: sans-serif, Verdana, Geneva, Tahoma;
+	font-size: 12pt;
+	color: #ADACAC;
+	padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.pagination a:hover {
+  background-color: #f1f1f1;
+}
+
+.arrow{
+	font-weight: middle;
+}
+
+
+#button{
+	float: right;
+	margin: 20px 0 20px 0;
+	background-color: #643e35;
+	color: white;
+	border: none;
+	height: auto;
+	width: auto;
+	font-family: Verdana, sans-serif, Geneva, Tahoma;
+	font-weight: 400;
+	border-radius: 5px;
+	padding: 5px 15px;
+	cursor: pointer;
+}
+
+#button2{
+   float: right;
+   margin: 20px 0 20px 0;
+   background-color: #643e35;
+   color: white;
+   border: none;
+   height: auto;
+   width: auto;
+   font-family: Verdana, sans-serif, Geneva, Tahoma;
+   font-weight: 600;
+   border-radius: 5px;
+   padding: 5px 15px;
+   cursor: pointer;
+   margin-right: 10px;
+}
+
+.search-button{
+	background-color: #643e35;
+	color: white;
+	border: none;
+	height: 32px;
+	 margin-top: -3px;
+	width: auto;
+	font-family: Verdana, sans-serif, Geneva, Tahoma;
+	font-weight: 400;
+	border-radius: 5px;
+	padding: 5px 15px;
+	cursor: pointer;
+}
+
+.pagination{
+	justify-content: center;
+}

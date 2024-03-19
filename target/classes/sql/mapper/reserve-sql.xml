@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ReserveDAO">
+	
+	<select id="getReserList" resultType="reserve" parameterType="hashmap">
+		SELECT room_idx, reserve_start, reserve_end, reserve_state
+		FROM reserve
+		WHERE reserve_start between #{start} AND #{end}
+		AND room_idx in (SELECT room_idx FROM room WHERE room_condition = true)
+	</select>
+
+	<select id="getUseRoomList" resultType="RoomVO" parameterType="RoomVO">
+		SELECT *
+		FROM room
+	</select>
+
+	<select id="getImageList" resultType="RoomImgVO">
+		SELECT * FROM room_img
+		ORDER BY img_path ASC
+	</select>
+	
+	<select id="getImages" resultType="RoomImgVO" parameterType="RoomImgVO">
+		SELECT img_path, (SELECT room_name FROM room WHERE room_idx = #{room_idx}) room_name
+		FROM room_img
+		WHERE room_idx = #{room_idx}
+	</select>
+	
+	<insert id="insertReserve" parameterType="reserve">
+		INSERT INTO	reserve
+		VALUES (#{reserve_idx}, #{reserve_start}, #{reserve_end}, #{reserve_state}, #{room_idx}, #{guest_idx})
+	</insert>
+
+</mapper>

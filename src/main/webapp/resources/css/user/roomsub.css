@@ -1,0 +1,213 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+	background-color: white;
+}
+
+.imageShow {
+	width: 100%; /* 슬라이드 쇼의 너비 설정 */
+	overflow: hidden; /* 넘치는 이미지 숨기기 */
+	display: flex; /*이미지를 수평으로 정렬*/
+	height: 100%; /* 이미지의 높이를 조절하여 비율 유지 */
+	justify-content: center;
+	/* 	align-items: center; 이미지를 수직 가운데 정렬 */
+}
+
+.imageShow div {
+	width: 100%; /* 슬라이드의 너비 설정 */
+	text-align: center; /* 내용을 가운데 정렬 */
+	display: none; /*초기에 모든 이미지 숨기기*/
+	overflow: hidden;
+}
+
+.imageShow img {
+	width: 100%; /* 이미지 너비를 최대 100%로 설정하여 비율 유지 */
+	max-height: 100%;
+}
+
+.roominfo {
+	/* 	display: float; */
+	display: flex; /*div.left와 div.right를 나란히 표시*/
+	margin: 5% 12% 0 12%;
+}
+
+div.left {
+	box-sizing: border-box;
+	margin-top: 20px;
+	width: 45%;
+	/* 	float: left; */
+}
+
+.left h1 {
+	font-size: 90px;
+	letter-spacing: -2px;
+	margin-top: -10px;
+}
+
+.left hr {
+	width: 80px;
+	border: 0.3px solid gray;
+	margin-top: -30px;
+	float: left
+}
+
+.left p {
+	font-size: 20px;
+	font-family: sans-serif, Verdana, Geneva, Tahoma;
+	line-height: 30px;
+	letter-spacing: -2px;
+}
+
+div.right {
+	box-sizing: border-box;
+	width: 55%;
+	margin-top: 1%;
+	/* 	float: left; */
+	/* 	padding: 30px; */
+}
+
+#roominfo {
+	font-family: Verdana, sans-serif, Geneva, Tahoma;
+	font-size: 20px;
+	line-height: 30px;
+	font-weight: 700;
+	color: #6e6eac;
+}
+
+.imageShow div {
+	width: 100%; /* 슬라이드의 너비 설정 */
+	text-align: center; /* 내용을 가운데 정렬 */
+	display: none; /* 초기에 모든 이미지 숨기기 */
+	overflow: hidden;
+}
+
+.imageShow img {
+	width: 100%; /* 이미지 너비를 최대 100%로 설정하여 비율 유지 */
+	max-height: 100%;
+}
+
+#table_first {
+	font-size: 20px;
+	font-family: sans-serif, Verdana, Geneva, Tahoma;
+	font-weight: bold;
+	vertical-align: middle; /* 수직 가운데 정렬 */
+	text-align: center; /* 수평 가운데 정렬 */
+	vertical-align: middle; /* 수직 가운데 정렬 */
+	line-height: 20px;
+}
+
+.calendar-table p {
+	font-size: 15px;
+		font-family: sans-serif, Verdana, Geneva, Tahoma;
+	font-weight: light;
+}
+
+#bookbutton {
+    background-color: white;
+    border: 0.2px solid #6e6eac;
+    color: #6e6eac;
+    height: auto;
+    width: auto;
+    font-family: Verdana, sans-serif, Geneva, Tahoma;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 20px 35px;
+    cursor: pointer;
+    
+}
+
+.center-button {
+    text-align: center; /* 가로 가운데 정렬 */
+    margin-top: 20px; /* 원하는 여백 추가 */
+}
+
+.clear {
+	clear: both;
+}
+
+hr {
+	width: 1400px;
+	margin-top: 150px;
+}
+
+.other_rooms {
+	margin-top: 150px;
+	text-align: center;
+}
+
+.other_rooms h3 {
+	font-size: 50px;
+}
+
+.other_rooms p {
+	font-size: 20px;
+	letter-spacing: -2px;
+	color: gray;
+}
+
+.itemList_wrap {
+	width: 1400px;
+	/* 	background-color: yellow; */
+	margin: 60px auto;
+	height: 600px;
+	display: flex; /* .itemList_wrap를 flex 컨테이너로 설정 */
+	justify-content: center; /*.itemList_wrap의 내용을 수평으로 가운데 정렬 */
+	align-items: center; /* .itemList_wrap의 내용을 수직으로 가운데 정렬 */
+}
+
+.swiper-container ul {
+	display: flex; /* ul을 flex 컨테이너로 설정 */
+	list-style: none;
+}
+
+.itemList_wrap ul li {
+	margin: 0 40px; /*위아래는 0, 좌우 간격 조절*/
+}
+
+.swiper-container img {
+	width: 550px;
+	height: 300px;
+	border-radius: 10px; /*모서리 둥글게*/
+}
+
+
+.swiper-container img:hover{
+	/* 	display: block; */
+	position: relative; /* 부모 요소를 상대 위치로 설정 */
+	overflow: hidden; /* 넘치는 내용 숨김 */
+	transition: transform 0.3s; /*이미지의 확대/축소 효과에 트랜지션 적용*/
+	filter: brightness(80%); /* 어두운 효과를 주는 부분 */
+	border-radius: 10px; /*모서리 둥글게*/
+}
+
+.content {
+	position: relative;
+	text-align: center;
+}
+
+.eng {
+	color: #EB5E54;
+	font-size: 22pt;
+	font-weight: 700;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	line-height: 40pt;
+	letter-spacing: -1px;
+}
+
+#button {
+	float: center;
+	margin: 10px 0 20px 0;
+	background-color: gray;
+	color: white;
+	border: none;
+	height: auto;
+	width: auto;
+	font-family: Verdana, sans-serif, Geneva, Tahoma;
+	font-size: 15px;
+	font-weight: 600;
+	border-radius: 5px;
+	padding: 10px 15px;
+	cursor: pointer;
+}

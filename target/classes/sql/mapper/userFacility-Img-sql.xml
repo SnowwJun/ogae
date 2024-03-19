@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserFacilityImgDAO">
+	
+	<select id="getFacImg" resultType="UserFacilityImgVO" parameterType="UserFacilityImgVO">
+		SELECT * FROM Facility_img
+		WHERE img_idx = #{img_idx}
+	</select>
+
+	<select id="getFacImgList" resultType="UserFacilityImgVO" parameterType="int">
+		SELECT * FROM Facility_img
+		WHERE facility_idx = #{facility_idx}
+	</select>
+	
+
+
+
+</mapper>
+

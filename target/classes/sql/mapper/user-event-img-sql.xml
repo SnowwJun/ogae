@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserEventImgDAO">
+<resultMap type="user_event_img" id="userEventImgResult">
+		<id property="imgIdx" column="img_idx"/>
+		<result property="path" column="img_path"/>
+		<result property="idx" column="event_idx"/>
+	</resultMap>
+	
+	<!-- 이벤트 이미지 조회 -->
+    <select id="getEventImg" resultMap="userEventImgResult" parameterType="user_event_img">
+        SELECT * FROM event_img
+        WHERE event_idx=#{idx}
+        LIMIT 1
+    </select>
+    
+	<!-- 이벤트 이미지 목록 -->
+    <select id="getEventImgList" resultMap="userEventImgResult" parameterType="user_event_img">
+    	SELECT * FROM event_img
+    	ORDER BY event_idx DESC
+    </select>
+</mapper>

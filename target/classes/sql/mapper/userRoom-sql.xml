@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserRoomDAO">
+
+	<!-- 객실 목록 조회 -->
+	<select id="getRoomList" resultType="UserRoomVO">
+		SELECT * FROM ROOM
+		ORDER BY
+		room_idx ASC;
+	</select>
+
+	<!-- 특정 객실 조회 -->
+	<select id="getRoom" parameterType="int" resultType="UserRoomVO">
+		SELECT *
+		FROM ROOM WHERE ROOM_IDX = #{room_idx}
+	</select>
+
+
+	<!-- 이전 객실 조회 -->
+	<select id="getPrevRoom" parameterType="int" resultType="UserRoomVO">
+    <![CDATA[
+    SELECT * FROM room
+    WHERE room_idx < #{room_idx}
+    ORDER BY room_idx DESC
+    LIMIT 1
+    ]]>
+	</select>
+
+	<!-- 다음 객실 조회 -->
+	<select id="getNextRoom" parameterType="int" resultType="UserRoomVO">
+	    SELECT * FROM room
+	    WHERE room_idx > #{roomIdx}
+	    ORDER BY room_idx ASC
+	    LIMIT 1
+	</select>
+	
+	<!-- 나머지 객실 -->
+	 <select id="getOtherRooms" parameterType="int" resultType="UserRoomVO">
+        SELECT * FROM room WHERE room_idx != #{currentRoomIdx}
+    </select>
+    
+    
+	<select id="getRoomWithItemName" parameterType="int" resultType="UserRoomVO">
+    SELECT R.ROOM_IDX, R.ROOM_NAME, R.ROOM_INFO, R.ROOM_CONDITION, R.ROOM_CATEGORY,
+        R.PERSON_NUM, R.DOG_NUM, R.ROOM_ITEM_IDX, R.ROOM_GUIDE, R.ROOM_SIZE,
+        R.ROOM_CHECKIN, R.ROOM_CHECKOUT,
+        STRING_AGG(I.ROOM_ITEM_NAME, ', ') AS ROOM_ITEM_NAMES
+    FROM ROOM R
+    INNER JOIN ROOM_ITEM I ON POSITION(I.ROOM_ITEM_IDX IN R.ROOM_ITEM_IDX) > 0
+    <where>
+        <!-- if test="room_idx != null" -->
+            AND R.ROOM_IDX = #{room_idx}
+        <!-- /if -->
+    </where>
+    GROUP BY R.ROOM_IDX, R.ROOM_NAME, R.ROOM_INFO, R.ROOM_CONDITION, R.ROOM_CATEGORY,
+        R.PERSON_NUM, R.DOG_NUM, R.ROOM_ITEM_IDX, R.ROOM_GUIDE, R.ROOM_SIZE,
+        R.ROOM_CHECKIN, R.ROOM_CHECKOUT
+
+<!-- 	SELECT -->
+<!--         R.ROOM_IDX, -->
+<!--         R.ROOM_NAME, -->
+<!--         R.ROOM_INFO, -->
+<!--         R.ROOM_CONDITION, -->
+<!--         R.ROOM_CATEGORY, -->
+<!--         R.PERSON_NUM, -->
+<!--         R.DOG_NUM, -->
+<!--         R.ROOM_ITEM_IDX, -->
+<!--         R.ROOM_GUIDE, -->
+<!--         R.ROOM_SIZE, -->
+<!--         R.ROOM_CHECKIN, -->
+<!--         R.ROOM_CHECKOUT, -->
+<!--         STRING_AGG(I.ROOM_ITEM_NAME, ', ') AS ROOM_ITEM_NAMES -->
+<!--     FROM -->
+<!--         ROOM R -->
+<!--     INNER JOIN -->
+<!--         ROOM_ITEM I ON POSITION(I.ROOM_ITEM_IDX IN R.ROOM_ITEM_IDX) > 0 -->
+<!--     WHERE -->
+<!--         R.ROOM_IDX = #{roomIdx} -->
+<!--     GROUP BY -->
+<!--         R.ROOM_IDX, -->
+<!--         R.ROOM_NAME, -->
+<!--         R.ROOM_INFO, -->
+<!--         R.ROOM_CONDITION, -->
+<!--         R.ROOM_CATEGORY, -->
+<!--         R.PERSON_NUM, -->
+<!--         R.DOG_NUM, -->
+<!--         R.ROOM_ITEM_IDX, -->
+<!--         R.ROOM_GUIDE, -->
+<!--         R.ROOM_SIZE, -->
+<!--         R.ROOM_CHECKIN, -->
+<!--         R.ROOM_CHECKOUT; -->
+</select>
+    
+</mapper>

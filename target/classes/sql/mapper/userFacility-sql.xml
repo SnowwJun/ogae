@@ -1,0 +1,21 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserFacilityDAO">
+     <resultMap type="com.ogae.user.board.UserFacilityVO" id="UserFacility"> 
+         <id property="facility_idx" column="FACILITY_IDX" /> 
+         <result property="facility_name" column="FACILITY_NAME" /> 
+         <result property="facility_info" column="FACILITY_INFO" /> 
+         <result property="facility_condition" column="FACILITY_CONDITION" /> 
+     </resultMap> 
+
+    
+     <select id="getFac" resultMap="UserFacility" parameterType="UserFacilityVO"> 
+         SELECT * FROM FACILITY WHERE FACILITY_IDX = #{facility_idx} 
+     </select> 
+
+     <select id="getFacList" resultMap="UserFacility" parameterType="UserFacilityVO"> 
+         SELECT * FROM FACILITY
+        ORDER BY FACILITY_IDX DESC
+    </select> 
+
+    
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserNoticeDAO">
+	<resultMap type="UserNoticeVO" id="usernoticeResult">
+		<id property="notice_idx" column="notice_idx" />
+		<result property="notice_title" column="notice_title" />
+		<result property="notice_writer" column="notice_writer" />
+		<result property="notice_content" column="notice_content" />
+		<result property="notice_regdate" column="notice_regdate" />
+		<result property="notice_modydate" column="notice_modydate" />
+		<result property="notice_condition" column="notice_condition" />
+		<result property="notice_count" column="notice_count" />
+	</resultMap>
+
+	<!-- where절 공통사용 -->
+	<sql id="search">
+		<where>
+			<if test="searchCondition == 'title'">
+				AND NOTICE_TITLE LIKE '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="searchCondition == 'content'">
+				AND NOTICE_CONTENT LIKE '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="searchCondition == 'titleAndContent'">
+				AND (NOTICE_TITLE LIKE '%' || #{searchKeyword} || '%'
+				OR
+				NOTICE_CONTENT LIKE '%' || #{searchKeyword} || '%')
+			</if>
+		</where>
+	</sql>
+
+	<select id="getNotice" resultType="UserNoticeVO" parameterType="NoticeVO">
+		SELECT * FROM notice WHERE notice_idx=#{notice_idx}
+	</select>
+
+	<select id="getNoticeList" resultMap="usernoticeResult" parameterType="UserNoticeVO">
+		SELECT *
+		FROM notice
+		ORDER BY notice_idx DESC
+		LIMIT #{listSize} OFFSET #{startList}
+	</select>
+
+	<!-- 게시글 목록 총 개수 -->
+	<select id="getNoticeListCnt" resultType="int">
+		SELECT COUNT(*) as
+		listCnt FROM notice
+
+	</select>
+
+	<!-- 검색목록 -->
+	<select id="getSearchNoticeList" resultMap="usernoticeResult" parameterType="map">
+		SELECT * FROM notice
+		<include refid="search" />
+		ORDER BY notice_idx DESC
+		LIMIT #{listSize} OFFSET #{startList}
+	</select>
+
+	<!-- 검색 목록 총 개수 -->
+	<select id="getSearchNoticeListCnt" resultType="int"
+		parameterType="map">
+		SELECT COUNT(*) as listCnt FROM notice
+		<include refid="search"></include>
+	</select>
+
+	<!-- 이전글, 다음글 -->
+	<select id="prevNext" resultType="int"
+		resultMap="usernoticeResult">
+		SELECT * FROM
+		(SELECT notice_idx, notice_title,
+		LAG(notice_idx, 1, 0) OVER (ORDER BY notice_idx) AS prevNum,
+		LAG(notice_title, 1, '이전 글이 없습니다.') OVER (ORDER BY notice_idx) AS
+		prevTitle,
+		LEAD(notice_idx, 1, 0) OVER (ORDER BY notice_idx) AS
+		nextNum,
+		LEAD(notice_title, 1, '다음 글이 없습니다.')
+		OVER (ORDER BY notice_idx) AS nextTitle FROM notice) AS prevNext
+		WHERE
+		notice_idx = #{notice_idx}
+		ORDER BY notice_idx DESC
+	</select>
+</mapper>

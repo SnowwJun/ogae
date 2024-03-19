@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ServiceImgDAO">
+	
+<insert id="insertServiceImg" parameterType="ServiceImgVO" useGeneratedKeys="true" keyProperty="img_idx">
+    INSERT INTO service_img(img_idx, service_idx, img_path)
+    VALUES(
+        (SELECT COALESCE(MAX(img_idx), 0) + 1 FROM service_img),
+        (SELECT MAX(service_idx) FROM service),
+        #{img_path}
+    )
+</insert>
+
+<!--  
+	<insert id="insertServiceImg" parameterType="ServiceImgVO" >
+    INSERT INTO service_img(img_idx, service_idx, img_path)
+    VALUES((SELECT COALESCE(MAX(img_idx), 0)+1 FROM service_img), #{service_idx}, #{img_path})
+</insert>
+-->
+
+	<update id="updateServiceImg" parameterType="ServiceImgVO">
+		UPDATE service_img
+		WHERE img_idx = #{img_idx}
+	</update>
+
+	<delete id="deleteServiceImg" parameterType="ServiceImgVO">
+		DELETE FROM service_img
+		WHERE img_idx = #{img_idx}
+	</delete>
+<!-- 1204생략
+	<select id="getServiceImg" resultType="ServiceImgVO" parameterType="ServiceImgVO">
+		SELECT * FROM service_img
+		WHERE img_idx = #{img_idx}
+	</select>
+	 -->
+	<select id="getServiceImgList" resultType="ServiceImgVO" parameterType="ServiceImgVO">
+    SELECT * FROM service_img
+    WHERE service_idx = #{service_idx}
+</select>
+
+</mapper>

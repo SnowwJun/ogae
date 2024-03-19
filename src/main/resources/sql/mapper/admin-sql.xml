@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AdminDAO">
+	<resultMap type="admin" id="adminResult">
+		<result property="id" column="admin_id"/>
+		<result property="password" column="admin_pass"/>
+		<result property="name" column="admin_name"/>
+		<result property="bank" column="admin_bank"/>
+		<result property="account" column="admin_account"/>
+		<result property="phone" column="admin_phone"/>
+		<result property="email" column="admin_email"/>
+	</resultMap>
+	
+	<select id="checkAdmin" resultType="String">
+		SELECT admin_pass
+		FROM admin
+		WHERE admin_id = #{id}
+	</select>
+
+	<select id="getAdmin" parameterType="admin" resultMap="adminResult">
+		SELECT *
+		FROM admin
+		WHERE admin_id = #{id}
+	</select>
+	
+	<update id="updateAdmin" parameterType="admin">
+		UPDATE admin
+		SET admin_pass = #{password}, admin_name = #{name}, admin_bank = #{bank}, admin_account = #{account}, admin_phone = #{phone}, admin_email = #{email}
+		WHERE admin_id = #{id}
+	</update>
+	
+</mapper>

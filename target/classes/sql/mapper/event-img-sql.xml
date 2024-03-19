@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EventImgDAO">
+<resultMap type="event_img" id="eventImgResult">
+		<id property="imgIdx" column="img_idx"/>
+		<result property="path" column="img_path"/>
+		<result property="idx" column="event_idx"/>
+	</resultMap>
+	
+	<sql id="where">
+		WHERE img_idx=#{imgIdx}
+	</sql>
+	
+    <!-- 이미지 등록 -->
+    <insert id="insertEventImg" parameterType="event_img" useGeneratedKeys="true" keyProperty="idx">
+   		INSERT INTO event_img (img_path, event_idx) VALUES (#{path}, #{idx})
+	</insert>
+
+    <!-- 이미지 수정 -->
+    <update id="updateEventImg" parameterType="event_img">
+        UPDATE event_img
+        SET
+        img_path=#{path}
+        <include refid="where"/>
+  		AND event_idx=#{idx}
+    </update>
+
+    <!-- 이미지 삭제 -->
+    <delete id="deleteEventImg" parameterType="event_img">
+        DELETE FROM event_img
+        WHERE event_idx=#{idx}
+    </delete>
+
+    <!-- 이벤트 이미지 조회 -->
+    <select id="getEventImg" resultMap="eventImgResult" parameterType="event_img">
+        SELECT * FROM event_img
+        WHERE event_idx=#{idx}
+        LIMIT 1
+    </select>
+</mapper>

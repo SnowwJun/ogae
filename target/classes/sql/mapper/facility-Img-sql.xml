@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FacilityImgDAO">
+	<insert id="insertFacilityImg" parameterType="FacilityImgVO" useGeneratedKeys="true" keyProperty="facility_idx">
+    <!-- 자식 테이블에 데이터를 삽입하고 부모 테이블의 키를 사용 -->
+    INSERT INTO FACILITY_IMG (IMG_PATH, FACILITY_IDX)
+    VALUES(#{img_path}, #{facility_idx})
+</insert>
+
+	 <update id="updateFacilityImg" parameterType="FacilityImgVO" useGeneratedKeys="true" keyProperty="facility_idx">
+        UPDATE Facility_img
+        SET IMG_PATH = #{img_path}
+        WHERE img_idx = #{img_idx}
+        AND facility_idx = #{facility_idx}
+    </update>
+
+	<delete id="deleteFacilityImg" parameterType="FacilityImgVO">
+		DELETE FROM Facility_img
+		WHERE FACILITY_IDX = #{facility_idx}
+	</delete>
+
+	<select id="getFacImg" resultType="FacilityImgVO" parameterType="FacilityImgVO">
+		SELECT * FROM Facility_img
+		WHERE img_idx = #{img_idx}
+	</select>
+
+	<select id="getFacImgList" resultType="FacilityImgVO" parameterType="FacilityImgVO">
+		SELECT * FROM Facility_img
+		WHERE facility_idx = #{facility_idx}
+	</select>
+	
+
+
+
+</mapper>
+

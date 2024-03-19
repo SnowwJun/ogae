@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserReviewDAO">
+	<resultMap type="user_review" id="reviewResult">
+		<id property="idx" column="review_idx"/>
+		<result property="title" column="review_title"/>
+		<result property="writer" column="review_writer"/>
+		<result property="content" column="review_content"/>
+		<result property="pass" column="review_pass"/>
+		<result property="regDate" column="review_regdate"/>
+		<result property="modyDate" column="review_modydate"/>
+		<result property="grade" column="review_grade"/>
+		<result property="secret" column="review_secret"/>
+		<result property="reply" column="review_reply"/>
+		<result property="count" column="review_count"/>
+	</resultMap>
+	
+	<!-- where절 공통 사용 -->
+	<sql id="where">
+		WHERE review_idx=#{idx}
+	</sql>
+	<sql id="search">
+        <where>
+            <if test="searchCondition == 'title'">
+                AND review_title LIKE '%' || #{searchKeyword} || '%'
+            </if>
+            <if test="searchCondition == 'content'">
+                AND review_content LIKE '%' || #{searchKeyword} || '%'
+            </if>
+            <if test="searchCondition == 'writer'">
+                AND review_writer LIKE '%' || #{searchKeyword} || '%'
+            </if>
+        </where>
+    </sql>
+	
+	<!-- 리뷰 게시글 등록 -->
+	<insert id="insertReview" parameterType="user_review">
+		INSERT INTO review (review_title, review_writer, review_content, review_pass, review_modydate, review_grade, review_secret)
+		VALUES (#{title}, #{writer}, #{content}, #{pass}, null, #{grade}, #{secret})
+	</insert>
+	
+	<!-- 리뷰 게시글 수정 -->
+	<update id="updateReview" parameterType="user_review">
+		UPDATE review
+		SET
+		review_title=#{title}, review_writer=#{writer}, review_content=#{content}, review_modydate=#{modyDate}, review_grade=#{grade}
+		<include refid="where"/>
+	</update>
+	
+	<!-- 리뷰 게시글 삭제 -->
+	<delete id="deleteReview" parameterType="user_review">
+		DELETE FROM review
+		<include refid="where"/>
+	</delete>
+	
+	<!-- 리뷰 게시글 조회 -->
+	<select id="getReview" resultMap="reviewResult" parameterType="user_review">
+		SELECT * FROM review
+		<include refid="where"/>
+	</select>
+	
+	<!-- 댓글 조회 -->
+	<select id="getReviewReply" resultType="String" parameterType="user_review">
+		SELECT review_reply
+		FROM review
+		<include refid="where"/>
+	</select>
+	
+	<!-- 리뷰 게시글 목록 -->
+	<select id="getReviewList" resultMap="reviewResult" parameterType="user_review">
+	   SELECT * FROM review
+		ORDER BY review_idx DESC
+		LIMIT #{listSize} OFFSET #{startList}
+	</select>
+	
+	<!-- 리뷰 게시글 목록 총 개수 -->
+	<select id="getReviewListCnt" resultType="int">
+	    SELECT COUNT(*) as listCnt FROM review
+	</select>
+	
+	<!-- 리뷰 검색 목록 -->
+	<select id="getSearchReviewList" resultMap="reviewResult" parameterType="map">
+	    SELECT * FROM review
+	    <include refid="search"/>
+	    ORDER BY review_idx DESC
+	    LIMIT #{listSize} OFFSET #{startList}
+	</select>
+
+	<!-- 리뷰 검색 목록 총 개수 -->
+	<select id="getSearchReviewListCnt" resultType="int" parameterType="map">
+	    SELECT COUNT(*) as listCnt FROM review
+	    <include refid="search"/>
+	</select>
+	
+	<!-- 이전 글 다음 글 -->
+	<select id="prevNext" resultType="int" resultMap="reviewResult">
+		SELECT * FROM (SELECT review_idx, review_title,
+		LAG(review_idx, 1, 0) OVER (ORDER BY review_idx) AS prevNum,
+		LAG(review_title, 1, '이전 글이 없습니다.') OVER (ORDER BY review_idx) AS prevTitle,
+		LEAD(review_idx, 1, 0) OVER (ORDER BY review_idx) AS nextNum,
+		LEAD(review_title, 1, '다음 글이 없습니다.') OVER (ORDER BY review_idx) AS nextTitle
+		FROM review) AS prevnext
+		<include refid="where"/>
+		ORDER BY review_idx DESC
+	</select>
+	
+	<!-- 조회수 카운트 -->
+	<update id="countReview" parameterType="int">
+	   UPDATE review
+	   SET
+	   review_count = review_count + 1
+	   <include refid="where"/>
+	</update>
+</mapper>

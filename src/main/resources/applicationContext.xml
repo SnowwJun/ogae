@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+   xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+   xmlns:aop="http://www.springframework.org/schema/aop"
+   xmlns:tx="http://www.springframework.org/schema/tx"
+   xmlns:security="http://www.springframework.org/schema/security"
+   xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-6.1.xsd
+      http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+      http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+   
+   <!-- <context:component-scan base-package="com.samzo.ogae"/> -->
+    <context:component-scan base-package="com.ogae" /> 
+    <aop:aspectj-autoproxy />
+    
+    <!-- DataBase 설정 파일 등록 -->
+  <context:property-placeholder location="classpath:sql/database.properties"/>
+   
+   <!-- 개발 -->
+<!--     <context:property-placeholder location="classpath:sql/database-dev.properties"/>  -->
+
+   
+   <!-- DataBase 연동 (PostgreSQL) -->
+   <!-- <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"> -->
+   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+      <property name="driverClassName" value="${jdbc.driverClassName}"/>
+      <property name="url" value="${jdbc.url}"/>
+      <property name="username" value="${jdbc.username}"/>
+      <property name="password" value="${jdbc.password}"/>
+   </bean>
+   
+   <!-- MyBatis 연동 -->
+   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+      <property name="dataSource" ref="dataSource"/>
+      <property name="configLocation" value="classpath:mybatis-config.xml"/>
+   </bean>
+   <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+      <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+   </bean>
+    
+   <!-- Transaction 설정 -->
+   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      <property name="dataSource" ref="dataSource"/>
+   </bean>
+   <!-- 트랜잭션 AOP 설정 -->
+   <tx:advice id="txAdvice" transaction-manager="transactionManager">
+      <tx:attributes>
+         <tx:method name="insert*" rollback-for="Exception" />
+         <tx:method name="update*" rollback-for="Exception" />
+         <tx:method name="delete*" rollback-for="Exception" />
+
+      </tx:attributes>
+   </tx:advice>
+   <!-- 
+   <aop:config>
+      <aop:pointcut expression="execution(* com.ogae..*(..))" id="transactionPointcut"/>
+      <aop:advisor advice-ref="txAdvice" pointcut-ref="transactionPointcut"/>
+   </aop:config>
+    -->
+   
+   <!-- security -->
+   <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+   
+   <!-- email -->
+   
+</beans>

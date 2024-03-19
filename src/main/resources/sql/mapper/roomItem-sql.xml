@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="RoomItemDAO">
+		<insert id="insertRoomItem" parameterType="RoomItemVO">
+			INSERT INTO room_item(room_item_name)
+			VALUES(#{room_item_name})
+		</insert>
+
+		<update id="updateRoomItem" parameterType="RoomItemVO">
+			UPDATE room_item
+			SET
+			room_item_name = #{room_item_name}
+			WHERE room_item_idx = #{room_item_idx}
+		</update>
+
+		<delete id="deleteRoomItem" parameterType="String">
+		    DELETE FROM room_item
+		    WHERE room_item_idx = #{room_item_idx}
+		</delete>
+
+		<select id="getRoomItem" resultType="RoomItemVO" parameterType="RoomItemVO">
+			SELECT * FROM room_item 
+			WHERE room_item_idx = #{room_item_idx}
+		</select>
+
+		<select id="getRoomItemList" resultType="RoomItemVO" parameterType="RoomItemVO">
+			SELECT room_item_name FROM room_item
+			WHERE room_item_idx = #{room_item_idx}
+		</select>
+		
+		<select id="getAllRoomItems" resultType="RoomItemVO" parameterType="RoomItemVO">
+			SELECT * FROM room_item;
+		</select>
+	</mapper>
